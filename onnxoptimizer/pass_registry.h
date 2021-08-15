@@ -7,11 +7,14 @@
 
 #pragma once
 
+#include <unordered_set>
+#include <vector>
+
 #include "onnx/common/ir.h"
 #include "onnx/common/ir_pb_converter.h"
 #include "onnx/common/stl_backports.h"
 #include "onnx/proto_utils.h"
-
+#include "onnxoptimizer/passes/eliminate_concat.h"
 #include "onnxoptimizer/passes/eliminate_deadend.h"
 #include "onnxoptimizer/passes/eliminate_duplicate_initializer.h"
 #include "onnxoptimizer/passes/eliminate_identity.h"
@@ -36,10 +39,9 @@
 #include "onnxoptimizer/passes/fuse_transpose_into_gemm.h"
 #include "onnxoptimizer/passes/lift_lexical_references.h"
 #include "onnxoptimizer/passes/nop.h"
+#include "onnxoptimizer/passes/rk/warn_clip.h"
+#include "onnxoptimizer/passes/rk/warn_resize.h"
 #include "onnxoptimizer/passes/split.h"
-
-#include <unordered_set>
-#include <vector>
 
 namespace ONNX_NAMESPACE {
 namespace optimization {
@@ -76,6 +78,9 @@ struct GlobalPassRegistry {
     registerPass<LiftLexicalReferences>();
     registerPass<SplitInit>();
     registerPass<SplitPredict>();
+    registerPass<EliminateConcat>();
+    registerPass<WarnResize>();
+    registerPass<WarnClip>();
   }
 
   ~GlobalPassRegistry() {
