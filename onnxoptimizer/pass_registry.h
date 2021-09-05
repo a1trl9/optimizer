@@ -30,6 +30,7 @@
 #include "onnxoptimizer/passes/fuse_add_bias_into_conv.h"
 #include "onnxoptimizer/passes/fuse_bn_into_conv.h"
 #include "onnxoptimizer/passes/fuse_consecutive_concats.h"
+#include "onnxoptimizer/passes/fuse_consecutive_conv_add.h"
 #include "onnxoptimizer/passes/fuse_consecutive_log_softmax.h"
 #include "onnxoptimizer/passes/fuse_consecutive_reduce_unsqueeze.h"
 #include "onnxoptimizer/passes/fuse_consecutive_squeezes.h"
@@ -68,6 +69,7 @@ struct GlobalPassRegistry {
     registerPass<FuseAddBiasIntoConv>();
     registerPass<FuseBNIntoConv>();
     registerPass<FuseConsecutiveConcats>();
+    registerPass<FuseConsecutiveConvAdd>();
     registerPass<FuseConsecutiveLogSoftmax>();
     registerPass<FuseConsecutiveReduceUnsqueeze>();
     registerPass<FuseConsecutiveSqueezes>();
