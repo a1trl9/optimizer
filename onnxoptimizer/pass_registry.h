@@ -40,8 +40,8 @@
 #include "onnxoptimizer/passes/fuse_transpose_into_gemm.h"
 #include "onnxoptimizer/passes/lift_lexical_references.h"
 #include "onnxoptimizer/passes/nop.h"
+#include "onnxoptimizer/passes/rk/reconstruct_resize.h"
 #include "onnxoptimizer/passes/rk/warn_clip.h"
-#include "onnxoptimizer/passes/rk/warn_resize.h"
 #include "onnxoptimizer/passes/split.h"
 
 namespace ONNX_NAMESPACE {
@@ -81,8 +81,8 @@ struct GlobalPassRegistry {
     registerPass<SplitInit>();
     registerPass<SplitPredict>();
     registerPass<EliminateConcat>();
-    registerPass<WarnResize>();
     registerPass<WarnClip>();
+    registerPass<ReconstructResize>();
   }
 
   ~GlobalPassRegistry() {
