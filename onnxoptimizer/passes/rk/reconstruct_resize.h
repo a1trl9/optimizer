@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdio>
+#include <cmath>
 
 #include "onnx/common/assertions.h"
 #include "onnxoptimizer/pass.h"
@@ -60,8 +61,17 @@ struct ReconstructResize final : public PredicateBasedPass {
     int64_t height = size_vec[2];
     int64_t width = size_vec[3];
 
-    float scale_h = height / input_height;
-    float scale_w = width / input_width;
+    float scale_h = static_cast<float>(height) / static_cast<float>(input_height);
+    float scale_w = static_cast<float>(width) / static_cast<float>(input_width);
+
+    // RK's shape inference: ceiling
+    if (ceil(scale_h) != scale_h) {
+      scale_h = static_cast<float>(height + 0.4) / static_cast<float>(input_height);
+    }
+
+    if (ceil(scale_w) != scale_w) {
+      scale_w = static_cast<float>(width + 0.4) / static_cast<float>(input_width);
+    }
 
     // update output
     auto y_output = n->outputs()[0];
